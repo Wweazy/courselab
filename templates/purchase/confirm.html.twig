@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'purchase.confirm_title'|trans }}{% endblock %}
+
+{% block body %}
+    <section class="section">
+        <div class="container" style="max-width: 600px;">
+            <h1>{{ 'purchase.confirm_title'|trans }}</h1>
+
+            <div class="card" style="margin-top: 24px;">
+                <div class="card__body">
+                    <h3>{{ course.title }}</h3>
+                    <p>{{ course.shortDesc }}</p>
+                    <p class="price" style="font-size: 24px;">{{ course.price }} zł</p>
+
+                    <hr style="border: 1px solid #26304f; margin: 16px 0;">
+
+                    <p>{{ 'purchase.ready'|trans }}</p>
+
+                    <div style="display: flex; gap: 12px; margin-top: 20px;">
+                        <a href="{{ path('app_purchase_success', { id: course.id }) }}" class="btn btn--primary">
+                            {{ 'purchase.pay_btn'|trans }}
+                        </a>
+                        <a href="{{ path('courses_show', { id: course.id }) }}" class="btn btn--ghost">
+                            {{ 'purchase.cancel'|trans }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

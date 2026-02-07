@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ course.title }}{% endblock %}
+
+{% block body %}
+    <section class="section">
+        <div class="container">
+            <div class="section__header">
+                <a class="link" href="{{ path('courses_index') }}">{{ 'course.back'|trans }}</a>
+            </div>
+
+            <div class="grid" style="grid-template-columns: 1.5fr 0.5fr; align-items: start; gap: 40px;">
+
+                <div>
+                    <img src="{{ course.imageUrl }}" alt="{{ course.title }}" style="width: 100%; border-radius: 16px; margin-bottom: 30px; border: 1px solid #26304f;">
+
+                    <h1 style="font-size: 48px; margin-bottom: 10px;">{{ course.title }}</h1>
+                    <div style="display: flex; gap: 10px; margin-bottom: 30px;">
+                        <span class="hero__badge">{{ course.category.name }}</span>
+                    </div>
+
+                    {% set already_purchased = false %}
+                    {% if app.user %}
+                        {% for purchase in app.user.purchases %}
+                            {% if purchase.course.id == course.id %}
+                                {% set already_purchased = true %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if already_purchased %}
+                        <div class="card" style="margin-bottom: 30px; border: 2px solid #4ade80; background: #0f1a14;">
+                            <div class="card__body">
+                                <h2 style="color: #4ade80; margin-bottom: 20px;">{{ 'course.content_title'|trans }}</h2>
+                                <div style="font-size: 18px; line-height: 1.6; color: white;">
+                                    {{ course.content|raw }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <div class="card" style="margin-bottom: 30px;">
+                        <div class="card__body">
+                            <h2>{{ 'course.about_title'|trans }}</h2>
+                            <div style="font-size: 18px; line-height: 1.6; color: var(--muted);">
+                                {{ course.description|raw }}
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if course.modules|length > 0 %}
+                        <div class="card">
+                            <div class="card__body">
+                                <h2>{{ 'course.curriculum'|trans }}</h2>
+                                <div style="display: flex; flex-direction: column; gap: 10px;">
+                                    {% for module in course.modules|sort((a,b) => a.position <=> b.position) %}
+                                        <a class="btn btn--ghost" href="{{ path('course_module_show', { courseId: course.id, id: module.id }) }}">
+                                            ▶ {{ module.title }}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div style="position: sticky; top: 100px;">
+                    <div class="card" style="padding: 24px; border: 2px solid var(--accent);">
+                        <div class="card__body">
+                            {% if already_purchased %}
+                                <div style="text-align: center;">
+                                    <span class="hero__badge" style="background: #4ade80; margin-bottom: 15px; display: block; border: none;">{{ 'course.already_owned'|trans }}</span>
+                                    <a href="{{ path('app_profile') }}" class="btn btn--ghost" style="width: 100%; text-align: center;">
+                                        {{ 'profile.my_courses'|trans }}
+                                    </a>
+                                </div>
+                            {% else %}
+                                <div class="price" style="font-size: 36px; margin-bottom: 20px;">{{ course.price }} zł</div>
+                                <a href="{{ path('app_purchase_confirm', { id: course.id }) }}" class="btn btn--primary" style="width: 100%; text-align: center; padding: 15px; font-size: 18px;">
+                                    {{ 'courses.buy'|trans }}
+                                </a>
+                            {% endif %}
+                            <ul style="margin-top: 24px; padding: 0; list-style: none; font-size: 14px; color: var(--muted);">
+                                <li style="margin-bottom: 10px;">✅ {{ 'course.feat_access'|trans }}</li>
+                                <li style="margin-bottom: 10px;">✅ {{ 'course.feat_cert'|trans }}</li>
+                                <li>✅ {{ 'course.feat_support'|trans }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

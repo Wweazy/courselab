@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'purchase.success_title'|trans }}{% endblock %}
+
+{% block body %}
+    <section class="section">
+        <div class="container" style="max-width: 600px; text-align: center;">
+            <h1 style="color: #4ade80;">{{ 'purchase.success_title'|trans }}</h1>
+            <p style="margin-top: 16px;">{{ 'purchase.success_text'|trans }} <strong>{{ course.title }}</strong>.</p>
+
+            <div style="margin-top: 30px;">
+                <a href="{{ path('app_profile') }}" class="btn btn--primary">{{ 'purchase.go_profile'|trans }}</a>
+                <a href="{{ path('home') }}" class="btn btn--ghost">{{ 'purchase.go_home'|trans }}</a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

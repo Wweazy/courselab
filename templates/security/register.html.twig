@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'auth.register_title'|trans }}{% endblock %}
+
+{% block body %}
+    <section class="section">
+        <div class="container" style="max-width: 420px;">
+            <h1>{{ 'auth.register_title'|trans }}</h1>
+
+            {% for message in app.flashes('error') %}
+                <div style="
+                background:#ff4d4f;
+                padding:10px;
+                border-radius:6px;
+                margin-bottom:12px;
+                color:white;
+            ">
+                    {{ message|trans }}
+                </div>
+            {% endfor %}
+
+            <form method="post">
+                <div class="card" style="margin-top: 16px;">
+                    <div class="card__body">
+
+                        <label>{{ 'auth.email'|trans }}</label>
+                        <input
+                            type="email"
+                            name="email"
+                            required
+                            style="width:100%; padding:10px; margin-top:6px;
+                               border-radius:8px; border:1px solid #26304f;
+                               background:#0f1424; color:white;"
+                        >
+
+                        <label style="margin-top:12px; display:block;">
+                            {{ 'auth.password'|trans }}
+                        </label>
+                        <input
+                            type="password"
+                            name="password"
+                            required
+                            minlength="8"
+                            style="width:100%; padding:10px; margin-top:6px;
+                               border-radius:8px; border:1px solid #26304f;
+                               background:#0f1424; color:white;"
+                        >
+
+                        <label style="margin-top:12px; display:block;">
+                            {{ 'auth.confirm_password'|trans }}
+                        </label>
+                        <input
+                            type="password"
+                            name="password_confirm"
+                            required
+                            minlength="8"
+                            style="width:100%; padding:10px; margin-top:6px;
+                               border-radius:8px; border:1px solid #26304f;
+                               background:#0f1424; color:white;"
+                        >
+
+                        <button class="btn btn--primary" style="margin-top:16px;">
+                            {{ 'auth.register_btn'|trans }}
+                        </button>
+
+                    </div>
+                </div>
+            </form>
+
+            <p style="margin-top:16px;">
+                {{ 'auth.have_account'|trans }}
+                <a class="link" href="{{ path('app_login') }}">
+                    {{ 'auth.login_link'|trans }}
+                </a>
+            </p>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'courses.title'|trans }}{% endblock %}
+
+{% block body %}
+    <section class="section">
+        <div class="container">
+            <div class="section__header">
+                <h1>{{ 'courses.title'|trans }}</h1>
+            </div>
+
+            <form method="get" style="margin-bottom: 24px;">
+                <select name="category" onchange="this.form.submit()" style="padding:10px; border-radius:8px; border:1px solid #26304f; background:#0f1424; color:white;">
+                    <option value="0">{{ 'courses.all_categories'|trans }}</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}" {% if category.id == selectedCategory %}selected{% endif %}>
+                            {{ category.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
+
+            <div class="grid">
+                {% for course in courses %}
+                    <article class="card">
+                        <img class="card__image" src="{{ course.imageUrl }}" alt="{{ course.title }}">
+                        <div class="card__body">
+                            <h3>{{ course.title }}</h3>
+                            <p>{{ course.shortDesc }}</p>
+                            <div class="card__footer">
+                                <span class="price">{{ course.price }} zł</span>
+                                <a class="btn btn--small" href="{{ path('courses_show', { id: course.id }) }}">
+                                    {{ 'courses.details'|trans }}
+                                </a>
+                            </div>
+
+                            <a class="btn btn--primary" href="{{ path('app_purchase_confirm', { id: course.id }) }}">
+                                {{ 'courses.buy'|trans }}
+                            </a>
+                        </div>
+                    </article>
+                {% else %}
+                    <p>{{ 'courses.no_courses'|trans }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

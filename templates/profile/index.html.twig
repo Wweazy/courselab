@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'profile.title'|trans }}{% endblock %}
+
+{% block body %}
+    <section class="section">
+        <div class="container">
+            <div class="section__header">
+                <h1>{{ 'profile.title'|trans }}</h1>
+                <p>{{ 'profile.hello'|trans }} <strong>{{ app.user.email }}</strong></p>
+            </div>
+
+            <h2 style="margin-top: 40px; margin-bottom: 20px;">{{ 'profile.my_courses'|trans }}</h2>
+
+            <div class="grid">
+                {% for purchase in app.user.purchases %}
+                    {% set course = purchase.course %}
+                    <article class="card">
+                        <img class="card__image" src="{{ course.imageUrl }}" alt="{{ course.title }}">
+                        <div class="card__body">
+                            <h3>{{ course.title }}</h3>
+                            <p>{{ course.shortDesc }}</p>
+                            <div class="card__footer">
+                                <a class="btn btn--primary btn--small" href="{{ path('courses_show', { id: course.id }) }}">
+                                    {{ 'profile.go_to_course'|trans }}
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                {% else %}
+                    <div class="card" style="padding: 20px; grid-column: 1 / -1; text-align: center; border-style: dashed;">
+                        <p>{{ 'profile.no_courses'|trans }}</p>
+                        <a href="{{ path('courses_index') }}" class="link">{{ 'home.cta_courses'|trans }}</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

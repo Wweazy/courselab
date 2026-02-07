@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'home.title'|trans }}{% endblock %}
+
+{% block body %}
+    <section class="hero">
+        <div class="container hero__content">
+            <div>
+                <h1>{{ 'home.hero_title'|trans }}</h1>
+                <p>{{ 'home.hero_subtitle'|trans }}</p>
+                <div class="hero__actions">
+                    <a class="btn btn--primary" href="{{ path('courses_index') }}">{{ 'home.cta_courses'|trans }}</a>
+                    <a class="btn btn--ghost" href="#featured">{{ 'home.cta_featured'|trans }}</a>
+                </div>
+            </div>
+            <div class="hero__card">
+                <div class="hero__badge">NEW</div>
+                <h3>{{ 'home.hero_card_title'|trans }}</h3>
+                <p>{{ 'home.hero_card_text'|trans }}</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section__header">
+                <h2>{{ 'home.benefits_title'|trans }}</h2>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <div class="card__body">
+                        <h3>{{ 'home.benefit_1_title'|trans }}</h3>
+                        <p>{{ 'home.benefit_1_text'|trans }}</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card__body">
+                        <h3>{{ 'home.benefit_2_title'|trans }}</h3>
+                        <p>{{ 'home.benefit_2_text'|trans }}</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card__body">
+                        <h3>{{ 'home.benefit_3_title'|trans }}</h3>
+                        <p>{{ 'home.benefit_3_text'|trans }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="featured" class="section">
+        <div class="container">
+            <div class="section__header">
+                <h2>{{ 'home.featured_title'|trans }}</h2>
+                <a class="link" href="{{ path('courses_index') }}">{{ 'home.featured_link'|trans }}</a>
+            </div>
+
+            <div class="grid">
+                {% for course in featuredCourses %}
+                    <article class="card">
+                        <img class="card__image" src="{{ course.imageUrl }}" alt="{{ course.title }}">
+                        <div class="card__body">
+                            <h3>{{ course.title }}</h3>
+                            <p>{{ course.shortDesc }}</p>
+                            <div class="card__footer">
+                                <span class="price">{{ course.price }} zł</span>
+                                <a class="btn btn--small" href="{{ path('app_purchase_confirm', { id: course.id }) }}">
+                                    {{ 'home.details'|trans }}
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                {% else %}
+                    <p>{{ 'home.no_courses'|trans }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
